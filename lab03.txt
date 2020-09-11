@@ -1,0 +1,279 @@
+Lab 03
+Garrett N. Shuman
+9/11/20
+
+All definitions, context and code taken from given refrences (Instructions say this is ok):
+https://legacy.cs.indiana.edu/classes/c322/fall2020/resources/thu-09-10/ed01.pdf
+https://github.com/Apress/java-design-patterns-2e
+
+Facade:
+Definition & Context:
+GoF Definition: Provide a unified interface to a set of interfaces in a system. Facade defines a higher-level
+interface that makes the subsystem easier to use.
+Concept
+It is one of those patterns that supports loose coupling. Here we emphasize the abstraction and hide the
+complex details by exposing a simple interface.
+Computer World Example
+We can think about a case where we use a method from a library. The user doesn’t care how the method is
+implemented in the library. He/she just calls the method to serve his/her easy purpose. The pattern can be
+best described by the example that follows.
+
+
+Code: 
+package jdp2e.facade.demo;
+
+public class FacadePatternExample {
+	public static void main(String[] args) {
+		System.out.println("***Facade Pattern Demo***\n");
+		//Creating Robots
+		RobotFacade milanoRobotFacade = new RobotFacade();
+		milanoRobotFacade.constructMilanoRobot();
+		RobotFacade robonautRobotFacade = new RobotFacade();
+		robonautRobotFacade.constructRobonautRobot();
+		//Destroying robots
+		milanoRobotFacade.destroyMilanoRobot();
+		robonautRobotFacade.destroyRobonautRobot();
+	}
+}
+https://github.com/Apress/java-design-patterns-2e/blob/master/FacadePattern/jdp2e/facade/demo/FacadePatternExample.java
+
+
+Bridge:
+Definition & Context:
+GoF Definition: Decouple an abstraction from its implementation so that the two can vary independently.
+Concept
+In this pattern, the abstract class is separated from the implementation class and we provide a bridge
+interface between them. This interface helps us to make concrete class functionalities independent from the
+interface implementer class. We can alter these different kind of classes structurally without affecting each
+other
+Computer World Example
+This pattern is used in a GUI framework. It separates Window abstraction from Window implementation in
+Linux/Mac OSs. The following illustration is a classical example in the software development field.
+Code: 
+
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@gshuman2 
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+
+Apress
+/
+java-design-patterns-2e
+5
+1430
+Code
+Issues
+Pull requests
+1
+Actions
+Projects
+Wiki
+Security
+Insights
+java-design-patterns-2e/BridgePattern/jdp2e/bridge/demo/BridgePatternDemo.java /
+
+Mark Powers Initial commit
+Latest commit 83b4ac8 on Dec 10, 2018
+ History
+ 0 contributors
+146 lines (129 sloc)  3.2 KB
+  
+package jdp2e.bridge.demo;
+
+//Implementor
+interface State
+{
+	void moveState();
+	void hardPressed();
+}
+//A Concrete Implementor.
+class OnState implements State
+{
+	@Override
+	public void moveState() 
+	{
+		System.out.print("On State\n");
+	}
+
+	@Override
+	public void hardPressed() 
+	{
+		System.out.print("\tThe device is already On.Do not press the button so hard.\n");
+
+	}
+}
+//Another Concrete Implementor.
+class OffState implements State
+{
+	@Override
+	public void moveState()
+	{
+		System.out.print("Off State\n");
+	}
+
+	@Override
+	public void hardPressed() 
+	{
+		System.out.print("\tThe device is Offline now.Do not press the off button again.\n");
+
+	}
+}
+//Abstraction
+abstract class ElectronicGoods
+{
+	//Composition - implementor
+	protected State state;
+	/*Alternative approach:
+	  We can also pass an implementor (as input argument) inside a constructor.
+	 */
+	/*public ElectronicGoods(State state)
+	{
+		this.state = state;
+	}*/
+	public State getState() 
+	{
+		return state;
+	}
+
+	public void setState(State state) 
+	{
+		this.state = state;
+	}
+	/*Implementation specific:
+	  We are delegating the implementation to the Implementor object. 
+	 */
+	public void moveToCurrentState() 
+	{
+		System.out.print("The electronic item is functioning at : ");
+		state.moveState();		
+	}
+	public void hardButtonPressed() 
+	{
+		state.hardPressed();	
+	}
+
+}
+//Refined Abstraction
+//Television does not want to modify any superclass method.
+class Television extends ElectronicGoods
+{
+
+	/*public Television(State state)
+	{
+		super(state);
+	}*/	
+}
+/*DVD class also ok with the super class method.
+In addition to this, it uses one additional method*/
+class DVD extends ElectronicGoods
+{
+
+	/*public DVD(State state)
+	{
+		super(state);
+	}*/
+	/* Notice that following DVD specific method is coded with superclass methods 
+	  but not with the implementor (State) method.So, this approach will allow to 
+	  vary the abstraction and implementation independently. 
+	 */
+	public void doublePress() {
+		hardButtonPressed();
+		hardButtonPressed();
+	}
+}
+public class BridgePatternDemo {
+
+	public static void main(String[] args) {
+		System.out.println("***Bridge Pattern Demo***");
+
+		System.out.println("\n Dealing with a Television at present.");
+
+		State presentState = new OnState();
+		//ElectronicGoods eItem = new Television(presentState);
+		ElectronicGoods eItem = new Television();
+		eItem.setState(presentState);
+		eItem.moveToCurrentState();
+		//hard press
+		eItem.hardButtonPressed();
+		//Verifying Off state of the Television now
+		presentState = new OffState();
+		//eItem = new Television(presentState);
+		eItem.setState(presentState);
+		eItem.moveToCurrentState();
+
+
+		System.out.println("\n Dealing with a DVD now.");
+		presentState = new OnState();
+		//eItem = new DVD(presentState);
+		eItem = new DVD();
+		eItem.setState(presentState);
+		eItem.moveToCurrentState();		
+
+		presentState = new OffState();
+		//eItem = new DVD(presentState);
+		eItem = new DVD();
+		eItem.setState(presentState);
+		eItem.moveToCurrentState();
+
+		//hard press-A DVD specific method
+		//(new DVD(presentState)).doublePress();
+		((DVD)eItem).doublePress();
+
+		/*The following line of code will cause error because 
+		  a television object does not have this method.*/
+		//(new Television(presentState)).doublePress();
+	}
+}
+
+
+
+Prototype:
+Definition & Context:
+GoF Definition: Specify the kinds of objects to create using a prototypical instance, and create new objects by
+copying this prototype.
+Concept
+The prototype pattern provides an alternative method for instantiating new objects by copying or cloning
+an instance of an existing one. Creating a new instance, in a real-world scenario, is normally treated as an
+expensive operation. This pattern helps us to deal with this issue. Our focus here is to reduce the expense of
+this creational process of a new instance.
+Computer World Example
+Suppose we have made an application. The next time we want to create a similar application with some
+small changes, we must start with a copy from our master copy application and make the changes. We’ll not
+start from the scratch.
+
+Code: 
+
+package jdp2e.prototype.demo;
+
+public class PrototypePatternExample
+{
+	public static void main(String[] args) throws CloneNotSupportedException{
+		System.out.println("***Prototype Pattern Demo***\n");
+		BasicCar nano = new Nano("Green Nano") ;
+		nano.basePrice=100000;
+
+		BasicCar ford = new Ford("Ford Yellow");
+		ford.basePrice=500000;        
+
+		BasicCar bc1;
+		//Nano
+		bc1 =nano.clone();
+		//Price will be more than 100000 for sure
+		bc1.onRoadPrice = nano.basePrice+BasicCar.setAdditionalPrice();
+		System.out.println("Car is: "+ bc1.modelName+" and it's price is Rs."+bc1.onRoadPrice);
+
+		//Ford            
+		bc1 =ford.clone();
+		//Price will be more than 500000 for sure
+		bc1.onRoadPrice = ford.basePrice+BasicCar.setAdditionalPrice();
+		System.out.println("Car is: "+ bc1.modelName+" and it's price is Rs."+bc1.onRoadPrice);        
+	}
+}
