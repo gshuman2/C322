@@ -1,0 +1,71 @@
+HW01
+Garrett N. Shuman
+9/17/20
+Horstman solutions used on problems 2.09, 2.11
+
+Exercise 2.8. What relationship is appropriate between the following classes: aggregation, inheritance, or neither?
+
+I define aggregation as classes that can be related but still have the ability to exist without the other.
+
+(a) University–Student: Neither (Without University there are no students)
+(b) Student–TeachingAssistant: Aggregation (If all students are eliminated then there is no need for student teacher, but can still exist)
+(c) Student–Freshman: Aggregation
+(d) Student–Professor: Aggregation
+(e) Car–Door: aggregation
+(f ) Truck–Vehicle: Inheritance
+(g) Traffic–TrafficSign: Inheritance
+(h) TrafficSign–Color: aggregation (Related but not dependent on each other)
+
+
+
+Exercise 2.9. Consider an online course registration system that allows students to add
+and drop classes at a university. Give the multiplicities of the associations between these
+class pairs.
+(a) Student–Course: * - * (A student can be enrolled in 0 or more courses, and a course can have 0 or more students enrolled.)
+(b) Course–Section: 1 - * (A course can have 0 or more sections, and a section is designated for a particular course.)
+(c) Section–Instructor: * - 1 (Assuming one instructor of record, and STAFF if no one is assigned yet. Could be * - * for team taught courses or courses with no one assigned to them yet.)
+(d) Section–Room: * - * (Assuming a section could be in different rooms on different days. If there can only be one room per section, then it would be * - 1.)
+
+Exercise 2.10. Consider an airline reservation system with classes Passenger, Itinerary,
+Flight, and Seat. Consider a scenario in which a passenger adds a flight to an itinerary
+and selects a seat. What responsibilities and collaborators will you record on the CRC
+cards as a result?
+
+Passenger:
+    - String Name
+    - int DOB
+    - int SSN
+    - int Boarding Pass ID
+    - Add flight()
+
+Itinerary: (Same as boarding pass)
+    - Matches Passenger info with flight info()
+    - SelectSeat()
+    - Arraylist Seat and Passenger
+
+Flight:
+    - int Flight Number
+    - int Aircraft number
+    - String Pilot Name
+
+Seat:
+    - int Aisle Number
+    - Char Seat Letter
+    Booleans:
+    - Seatbelt
+    - Tray Table
+    - TV Screen
+
+
+
+Exercise 2.11. How does the design of the preceding exercise change if you have a group
+of passengers that fly together?
+
+If a group of passengers travel together, the following changes must be made.
+Add a new class PassengerGroup with the responsibility of reporting a list of the passengers in the group.
+Class Passenger: Add the responsibility to report the group the passenger is in (if any).
+Class Itinerary: Add the responsibility to add a reservation with a flight and one or more seats; Collaborators: None
+Flight: no changes
+Seat: no changes
+The person using the flight reservation system will be responsible for making reservations on a particular flight for all the passengers in the group.
+If the plane fills up before all of the reservations are make, the person will be responsible for deleting the reservations that have already been made for group members on that plane.
