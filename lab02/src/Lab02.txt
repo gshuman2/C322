@@ -1,0 +1,125 @@
+Garrett N. Shuman
+9/21/2020
+Lab 02
+
+Horstman Solutions used for Odd Problems
+
+Exercise 3.1. Find two total orderings for String objects. Find a partial ordering that is
+not a total ordering.
+
+Total orderings on String objects:
+The most commonly used total ordering is the lexicographic (ie dictionary) order of the string. This is the ordering used by the method compareTo().
+Another total ordering can be achieved as follows: Write the string s with characters s0s1. . .sn-1sn  as a number in base 65536, i.e. n(s) = Σ si 65536i. Then define s ≤ t iff n(s) ≤ n(t)
+
+Partial orderings on String objects:
+Order by length: for Strings s and t, s ≤ t iff s.length() ≤ t.length().
+
+Exercise 3.25. Improve the circular array implementation of the bounded queue by growing the elements array when the queue is full.
+- See Classes in file
+
+
+Exercise 3.26. Add assertions to check all preconditions of the methods of the bounded
+queue implementation.
+- added to MessageQueue Class
+
+
+
+Exercise 3.27. Show that (tail - head - count) % elements.length == 0 is an invariant of the bounded queue implementation.
+To prove that the condition (tail - head - count) % elements.length == 0 is an invariant of the MessageQueue class, we must show that it is true after each constructor finishes execution and that each mutator preserves it.
+In the only constructor in the class, count, head, and tail are all set to 0 which means that tail - head - count == 0 which proves that the invariant is true for all objects that are constructed.
+
+To show that the mutator removeFirst() preserves the invariant, notice that removeFirst makes the following changes:
+
+headNew == (headOld + 1) % elements.length
+
+countNew == countOld - 1;
+
+Because another invariant of the class is 0 ≤ head < elements.length
+
+we can say that there are two possible cases for headOld, either
+
+headOld == elements.length - 1
+
+or
+
+0 ≤ headOld < elements.length - 1.
+
+Consider the first case, that headOld == elements.length - 1. Since we assume the invariant is true for headOld and countOld, we know that
+
+(tail - headOld - countOld) % elements.length == 0
+
+Substituting for headOld and countOld we get
+
+(tail - elements.length + 1 - countNew - 1 ) % elements.length == 0
+
+which reduces to
+
+(tail + 1 - countNew - 1 ) % elements.length == 0
+
+But since headNew == (elements.length - 1 + 1) % elements.length == 0
+
+we can insert headNew into the statement above, resulting in
+
+(tail - headNew - countNew + 1 - 1) elements.length == 0
+
+and hence
+
+(tail - headNew - countNew) elements.length == 0
+
+and so in this case, the removeFirst() mutator preserves the invariant.
+
+Now considering the second case, that 0 ≤ headOld < elements.length - 1. This case implies that
+
+0 < headOld + 1 < elements.length
+
+and consequently
+
+headNew == (headOld + 1) % elements.length == headOld + 1
+
+Now since we assume the invariant is true for headOld and countOld, we know that
+
+(tail - headOld - countOld ) % elements.length == 0
+
+Substituting for headOld and countOld gives
+
+(tail - headNew + 1 - countNew - 1) % elements.length == 0
+
+== (tail - headNew - countNew) % elements.length
+
+and so for this case also the invariant is true after execution of removeFirst. Thus, the invariant is true for method removeFirst.
+
+Now we must prove that the invariant holds for method add which makes the following changes:
+
+tailNew == (tailOld + 1) % elements.length
+
+countNew == countOld + 1
+
+The statement is true by similar reasoning. Since 0 ≤ tail < elements.length is also an invariant of this class we again have two cases:
+
+tail == elements.length - 1, and
+
+0 ≤ tail < elements.length - 1.
+
+In the first case, tailNew must be 0 and so we can substitute in the invariant to get
+
+(elements.length - 1 - head - countNew + 1) % elements.length == 0
+
+== (tailNew - head - countNew) % elements.length
+
+which is the invariant.
+
+In the second case, 0 ≤ tailOld < elements.length - 1 implies that
+
+tailNew = (tailOld + 1) % elements.length = tailOld + 1
+
+and substituting in the original invariant gives
+
+(tailOld - 1 - head - countNew + 1) % elements.length == 0
+
+== (tailOld - head - countnew) % elements.length
+
+Thus the invariant holds in both cases and the method add also preserves the invariant. There are no other invariants in the class and therefore the invariant holds for the class.
+
+
+
+Exercise 3.28. Design a test class to test the MessageQueue class with JUnit.
