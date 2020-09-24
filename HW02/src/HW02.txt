@@ -1,0 +1,65 @@
+Garrett N. Shuman
+Hw02
+9/24/20
+Horstman solutions used where applicable
+
+
+
+Exercise 4.1. When sorting a collection of objects that implements the Comparable type,
+the sorting method compares and rearranges the objects. Explain the role of polymorphism in this situation.
+
+The sort method compares one object with another by calling the method compareTo().
+When the sort method is being compiled, the type of the objects being compared is not known,
+and so it is not possible to determine what compareTo() method should be called.
+This decision is left until runtime, and it is polymorphism that makes it possible for the runtime
+system to find and use the compareTo() method from the class of the object that is used for the comparison.
+
+
+Exercise 4.2. In Java, a method call on an object such as x.f() is resolved when the program executes,
+not when it is compiled, in order to support polymorphism. Name two
+situations where the Java compiler can determine the exact method to be called before
+the program executes.
+
+1. The method is static and there for can only be used under one premise
+2. The method is innate to an object class. For example the floor() function in the Math class will always round down
+regardless of context. Because of this the compiler can determine the exact method to be called before the program executes.
+
+
+
+Exercise 4.8. Define an interface type Filter as follows:
+public interface Filter
+{
+ boolean accept(String x);
+}
+
+Then supply a method
+public static String[] filter(String[] a, Filter f)
+that returns an array containing all elements of a that are accepted by the filter. Test your
+class by filtering an array of strings and accepting all strings that contain at most three
+characters.
+
+see Interface Filter
+
+
+Exercise 4.9. Define an interface type Drawable as follows:
+public interface Drawable
+{
+ void draw(Graphics2D g2);
+}
+Then provide a class Car that implements the Drawable interface type and a class DrawableIcon that can paint any drawable shape.
+Reimplement the program in Section 4.9
+that shows the car icon in an option pane. What is the benefit of this redesign?
+
+The interface Drawable separates the code for drawing from the rest of the code for implementing the Icon interface.
+This allows Drawable objects to be used for purposes other than as Icons,
+and it allows for easier implementation of Icons since only the drawable object need be passed in when a DrawableIcon is created.
+See appropriate classes as well
+
+
+
+Exercise 4.20. Enhance the ShapeIcon class so that it displays multiple moveable shapes.
+Then modify the animation program to show a number of moving cars. Hint: Store all
+shapes in an array list
+
+(See Shape Icon Class. Most other classes from solution 4.21 not included in my submission as they don't pertain to this problem.
+I only edited the Shape Icon Class. See horstman solutions 4.21 for additional classes)
