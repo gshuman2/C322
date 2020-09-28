@@ -1,0 +1,29 @@
+Garrett N. Shuman
+Lab 04
+9/28/20
+Horstman Solutions Taken Where Applicaple
+
+Exercise 5.3. A slider is a user interface component that allows a user to specify a
+continuum of values. To be notified of slider movement, you need to attach a class that
+implements the ChangeListener interface type. Read the API documentation for
+JSlider and ChangeListener. Make a table of pattern names and actual names that
+shows how this is a manifestation of the OBSERVER pattern.
+
+Name in Design Pattern	      Actual Name for JSlider and ChangeListener
+Subject	                      JSlider
+Observer	                  ChangeListener
+ConcreteObserver              The class that implements the ChangeListener interface
+attach()	                  addChangeListener()
+notify()	                  stateChanged()
+
+Exercise 5.9. Use the COMPOSITE pattern to define a class CompositeIcon that implements the Icon interface type and contains a list of icons. Supply a method
+void addIcon(Icon icon, int x, int y)
+
+- See classes
+
+
+Exercise 5.11. A Scanner can be used to read numbers and lines from a Reader. Is this an
+example of the DECORATOR pattern?
+
+The relationship between Scanner and Reader is not an example of the DECORATOR pattern.
+If a Scanner was a DECORATOR for a Reader, then Scanner would have to be a subclass of Reader. However, it is an unrelated class.
