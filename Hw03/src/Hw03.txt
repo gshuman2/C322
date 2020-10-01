@@ -1,0 +1,65 @@
+Garrett N. Shuman
+Hw03
+9/30/20
+Horstman Solutions Taken Where Applicable
+
+Exercise 6.3. Explain the two different uses of the super keyword. How can you tell
+when super is used to invoke a constructor?
+
+The keyword super can be used to access a member that is declared in the superclass
+(ie call a superclass method or access a superclass field) or to call a constructor defined in the superclass.
+When super is used with parentheses (ie super()) it is being used to invoke a constructor from the superclass.
+
+
+Exercise 6.4. Implement a class
+public class LabeledPoint extends java.awt.Point
+{
+ public LabeledPoint(int x, int y, String text) { . . . }
+ public void draw(Graphics g) { . . . }
+ private String text;
+}
+The draw method should draw a small circle and the label. Which methods does this
+class inherit?
+
+This class inherits the draw(Graphics g) Method.
+
+
+
+Exercise 6.9. Consider the ArrayList<E> and LinkedList<E> classes of the standard
+library. What abstract class do they extend? What interface types does that abstract class
+implement? Draw a class diagram.
+
+Classes ArrayList<E> and LinkedList<E> both extend abstract class AbstractList<E>. AbstractList<E> implements interface types List<E> and Collection<E>.
+
+«interface» Collection<E> 210.0 10.0 «interface» List<E> 230.0 90.0 <<abstract>> AbstractList<E> 230.0 200.0 ArrayList<E> 90.0 200.0 LinkedList<E> 10.0 300.0 <<abstract>> AbstractSequentialList<E> 190.0 310.0 <<abstract>> AbstractCollection<E> 370.0 90.0
+(See attached PNG for Diagram)
+
+
+Exercise 6.10. Consider the HashSet<E> and TreeSet<E> classes of the standard library.
+What abstract class do they extend? What interface types does that abstract class implement? Draw a class diagram.
+HashSet<E> - Extends Abstract<E>, Implements Set<E>, Cloneable, Serializable
+TreeSet<E> - Extends Abstracts<E>, Implements NavigableSet<E>, Cloneable, Serializable
+
+Abstract
+   |
+   |
+   |
+  /     \
+HashSet  TreeSet
+Exercise 6.17. Most drawing programs indicate selected items by placing “grabbers”
+around the corners. Implement this feature in the scene editor by adding a method
+Rectangle getBounds()
+to the SceneShape interface type. In the drawSelection method of the SelectableShape
+class, call getBounds to determine the grabber locations. Is this an example of the TEMPLATE METHOD pattern?
+
+This is an example of the TEMPLATE METHOD pattern.
+The superclass SelectableShape defines the drawSelection(Graphics2D g2) method that calls draw(Graphics2D g2) and getBounds() as primitive operations.
+Two subclasses: CarShape and HouseShape supply the primitive operations as is most appropriate for them.
+
+
+Exercise 6.18. A GeneralPath collects shapes and is itself a shape. What design pattern
+does it exemplify?
+
+This is an example of the Composite Pattern.
+Since the general path is a shape and collects shapes it treats both
+singular instances and groups of objects in the same way.
