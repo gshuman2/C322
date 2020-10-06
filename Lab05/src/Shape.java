@@ -86,7 +86,114 @@ public class Shape {
         this.color = Color.BLACK; // Default color but should never appear
     }
 
-    
+    /**
+     Returns coords
+     */
+    public int[][] getCoords() {
+        return this.coords;
+    }
+
+    public int getNumConfigs() {
+        return this.numConfigs;
+    }
+
+    public void setCoords(int[][] newCoords) {
+        this.coords = newCoords;
+    }
+
+    public static Color getColorOf(Tetromino t) {
+        return Shape.colors[t.ordinal()];
+    }
+
+    /**
+     Returns rotation position of this shape
+     */
+    public int[][] getConfig(int i) {
+        return configs[shape.ordinal()][i];
+    }
+
+    /**
+     Set the coordinates of this shape based on the Tetromino requested
+     */
+    public void setShape(Tetromino shape) {
+        int pos = shape.ordinal(); // Position in enumeration
+
+        coords = configs[pos][0];
+        numConfigs = configs[pos].length;
+        this.shape = shape;
+        this.color = colors[pos];
+    }
+
+    public Tetromino getShape() {
+        return this.shape;
+    }
+
+    public Point getOrigin() {
+        return this.origin;
+    }
+
+    public void setOrigin(Point p) {
+        this.origin = p;
+    }
+
+    public int getX(int i) {
+        return this.coords[i][0]+origin.x;
+    }
+
+    public int getY(int i) {
+        return this.coords[i][1]+origin.y;
+    }
+
+    public void setNewShape() {
+        int s = r.nextInt(7)+1;
+
+        Tetromino[] vals = Tetromino.values();
+        this.setShape(vals[s]);
+    }
+
+    /**
+     minX for left boundary restrictions
+     */
+    public int minX() {
+        int m = coords[0][0]+origin.x;
+        for (int i = 1; i < 4; i++) {
+            m = Math.min(m, coords[i][0]+origin.x);
+        }
+        return m;
+    }
+
+    /**
+     maxX for right boundary restrictions
+     */
+    public int maxX() {
+        int m = coords[0][0]+origin.x;
+        for (int i = 1; i < 4; i++) {
+            m = Math.max(m, coords[i][0]+origin.x);
+        }
+        return m;
+    }
+
+    /**
+     maxY for bottom boundary restrictions
+     */
+    public int maxY() {
+        int m = coords[0][1]+origin.y;
+        for (int i = 1; i < 4; i++) {
+            m = Math.max(m, coords[i][1]+origin.y);
+        }
+        return m;
+    }
+
+    /**
+     minY to determine end game state
+     */
+    public int minY() {
+        int m = coords[0][1]+origin.y;
+        for (int i = 0; i < 4; i++) {
+            m = Math.min(m, coords[i][1]+origin.y);
+        }
+        return m;
+    }
 
 
 }
